@@ -1,0 +1,49 @@
+projects
+- add, remove
+- contain name and description
+- contain todo lists
+
+todo lists
+- add, remove, reorder
+- contain name
+- contain todo cards
+
+todo cards
+- add, remove, reorder, move between lists
+- contain information
+-- title (string)
+-- description (string)
+-- dueDate? (date | Null)
+-- priority (number)
+-- done (boolean)
+
+
+data persistence
+- save projects, lists, and todos to local storage
+
+
+project visuals
+- fixed list on side-panel
+- create button at the bottom of the list
+- modify button (icon)
+
+list visuals
+- kanban board format
+- color code different lists
+
+todo card visuals
+- utilize svg icons
+-- checkmark button (change "done" state)
+-- pen button (edit todo card)
+- display dueDate, if defined (days remaining)
+- edit card information with modal popup
+-- but allow quick edit of the title
+- drag-n-drop cards to reorder or move between lists
+
+
+
+
+extras
+- todo card tagging
+-- designate project-level tags and assign them to todo cards
+-- tag name and tag color
