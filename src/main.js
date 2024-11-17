@@ -1,16 +1,22 @@
 import "./style.css";
-import { createPubSubBroker } from "./utils/pubSub.js";
-import { createTodoItem } from "./model/todoItem.js";
+import { createProject } from "./model/project.js";
 
-const pubSub = createPubSubBroker();
+const project = createProject("Starter");
 
-const todoId = "0";
-const todo = createTodoItem(pubSub, todoId, "Cook food");
-
-pubSub.subscribe(`todo-update-${todoId}`, (data) => {
-    if("title" in data){
-        console.log(`Todo item ${todoId} title was updated to`, data.title);
-    }
+project.pubSub.subscribe("todo-item-add", (x) => {
+    console.log("Added todo item:", x.title);
+});
+project.pubSub.subscribe("todo-item-remove", (x) => {
+    console.log("Removed todo item:", x.title);
 });
 
-todo.title = "Make dinner";
+const firstList = project.addTodoList("In Progress");
+const secondList = project.addTodoList("Completed");
+const firstItem = firstList.addTodoItem("Cook");
+
+project.log();
+
+firstList.removeTodoItem(firstItem.id);
+project.removeTodoList(firstList.id);
+
+project.log();
