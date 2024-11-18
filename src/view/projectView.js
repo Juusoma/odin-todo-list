@@ -24,7 +24,9 @@ export function handleProjectView(user){
 
     const projectsListContainer = document.querySelector(".projects-list");
     const projectCreationButton = document.querySelector(".create-project");
+    const projectsCollapseButton = document.querySelector(".projects-collapse-button");
     projectsListContainer.addEventListener("click", handleProjectListClick);
+    projectsCollapseButton.addEventListener("click", handleProjectsListCollapse);
 
     function handleProjectAdd(project){
         if(typeof project.title !== 'string'){
@@ -59,5 +61,9 @@ export function handleProjectView(user){
         if(projectId){
             user.loadProject(projectId);
         }
+    }
+
+    function handleProjectsListCollapse(){
+        projectsListContainer.classList.toggle("collapse");
     }
 }
