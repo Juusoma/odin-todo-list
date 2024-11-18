@@ -38,6 +38,7 @@ button{
     border-radius: 4px;
     padding: 4px;
     background-color: #ffffff00;
+    font-weight: bold;
 }
 
 button:hover{
@@ -180,9 +181,10 @@ button:hover{
     flex-direction: column;
     margin-top: 16px;
     padding-left: 16px;
+    gap: 4px;
 }
 
-.projects-list > li{
+.project-button{
     font-size: 1rem;
     font-weight: bold;
     color: var(--color-grey);
@@ -192,7 +194,11 @@ button:hover{
     border-bottom-right-radius: 0;
 }
 
-.projects-list > .selected{
+.project-button:hover{
+    color: var(--color-grey-dark);
+}
+
+.project-button.selected{
     position: relative;
     color: white;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.241);
@@ -212,8 +218,11 @@ button:hover{
     z-index: 1;
 }
 
-.projects-list > li > .create-project{
-    width: 100%;
+.projects-list > .create-project{
+    align-self: center;
+    width: 80%;
+    border-radius: 8px;
+
     opacity: .8;
 }
 
