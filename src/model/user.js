@@ -4,6 +4,7 @@ import { createProject } from "./project";
 export function createUser(name){
     const _name = name;
     let _projects = [];
+    let _currentProject = null;
 
     const _pubSub = createPubSubBroker();
 
@@ -29,6 +30,15 @@ export function createUser(name){
         }
     }
 
+    function loadProject(id){
+        const index = _projects.findIndex(x => x.id === id);
+        if(index === -1) console.error("Failed to load project!", id);
+        else{
+            _currentProject = _projects[index];
+            _pubSub.publish(`project-change`, _currentProject);
+        }
+    }
+
     return {
         set name(name){
             _name = name;
@@ -40,8 +50,12 @@ export function createUser(name){
         get pubSub(){
             return _pubSub;
         },
+        get currentProject(){
+            return _currentProject;
+        },
         addProject,
         removeProject,
         log,
+        loadProject,
     }
 }

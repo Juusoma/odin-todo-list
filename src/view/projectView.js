@@ -12,15 +12,19 @@ export function handleProjectView(user){
     
     function handleProjectCreateInput(inputValue){
         if(typeof inputValue === 'string'){
-            user.addProject(inputValue);
-            user.log();
+            const newProject = user.addProject(inputValue);
+            user.loadProject(newProject.id);
+            //user.log();
         }
     }
 
     user.pubSub.subscribe('project-add', handleProjectAdd);
     user.pubSub.subscribe('project-remove', handleProjectRemove);
-    const projectsContainer = document.querySelector(".projects-list");
+    user.pubSub.subscribe('project-change', handleProjectChange);
+
+    const projectsListContainer = document.querySelector(".projects-list");
     const projectCreationButton = document.querySelector(".create-project");
+    projectsListContainer.addEventListener("click", handleProjectListClick);
 
     function handleProjectAdd(project){
         if(typeof project.title !== 'string'){
@@ -30,10 +34,30 @@ export function handleProjectView(user){
         const newProjectButton = document.createElement("button");
         newProjectButton.classList.add("project-button");
         newProjectButton.textContent = project.title;
-        projectsContainer.insertBefore(newProjectButton, projectCreationButton);
+        newProjectButton.dataset.projectId = project.id;
+        projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
     }
 
     function handleProjectRemove(_project){
         //TODO
+    }
+
+    function handleProjectChange(project){
+        Array.from(projectsListContainer.children).forEach(x => {
+            const projectId = x.dataset.projectId;
+            if(projectId === project.id){
+                x.classList.add("selected");
+            }
+            else{
+                x.classList.remove("selected");
+            }
+        });
+    }
+
+    function handleProjectListClick(e){
+        const projectId = e.target.dataset.projectId;
+        if(projectId){
+            user.loadProject(projectId);
+        }
     }
 }
