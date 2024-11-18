@@ -1,22 +1,24 @@
 import "./style.css";
 import { createProject } from "./model/project.js";
+import { createPositionedTextInput } from "./view/positionedInput.js";
+import { createUser } from "./model/user.js";
 
-const project = createProject("Starter");
+const projects = [];
 
-project.pubSub.subscribe("todo-item-add", (x) => {
-    console.log("Added todo item:", x.title);
+const mainUser = createUser("Admin");
+
+const createProjectButton = document.querySelector(".create-project");
+createProjectButton.addEventListener("click", e => {
+    const hasPositionedInput = createProjectButton.querySelector(".positioned-input-container");
+    if(!hasPositionedInput){
+        createPositionedTextInput(createProjectButton, receiveInput);
+    }
 });
-project.pubSub.subscribe("todo-item-remove", (x) => {
-    console.log("Removed todo item:", x.title);
-});
 
-const firstList = project.addTodoList("In Progress");
-const secondList = project.addTodoList("Completed");
-const firstItem = firstList.addTodoItem("Cook");
+function receiveInput(inputValue){
+    if(typeof inputValue === 'string'){
+        mainUser.addProject(inputValue);
+        mainUser.log();
+    }
+}
 
-project.log();
-
-firstList.removeTodoItem(firstItem.id);
-project.removeTodoList(firstList.id);
-
-project.log();

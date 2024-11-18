@@ -52,6 +52,7 @@ button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all .1s;
 }
 
 .icon-button:hover{
@@ -74,6 +75,51 @@ button:hover{
     display: block;
     fill: rgb(26, 114, 255);
 }
+
+.basic-button{
+    position: relative;
+    height: 50px;
+    color: rgba(8, 8, 8, 0.4);
+    background-color: rgb(200, 200, 200);
+    border-radius: 16px;
+    text-align: center;
+    font-size: .8rem;
+    font-weight: bold;
+    transition: all .1s;
+    overflow: hidden;
+}
+
+.basic-button:hover{
+    box-shadow: inset 0 0 10px 0 rgba(125, 125, 125, 0.4);
+}
+
+.positioned-input-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    color: white;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.positioned-input-container > label{
+    color: grey;
+}
+
+.positioned-input-container > input[type="text"] {
+    flex: auto;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+
+
+
 
 .page-container{
     display: grid;
@@ -146,15 +192,6 @@ button:hover{
     border-bottom-right-radius: 0;
 }
 
-.projects-list > li > .create-project{
-    width: 100%;
-    height: 50px;
-    border-radius: 12px;
-    background-color: rgb(227, 227, 227);
-    text-align: center;
-    font-weight: bold;
-}
-
 .projects-list > .selected{
     position: relative;
     color: white;
@@ -174,6 +211,13 @@ button:hover{
     translate: 50% 0;
     z-index: 1;
 }
+
+.projects-list > li > .create-project{
+    width: 100%;
+    opacity: .8;
+}
+
+
 
 
 
@@ -358,23 +402,6 @@ button:hover{
 }
 
 .add-todo-item{
-    height: 50px;
-    color: rgba(8, 8, 8, 0.4);
-    background-color: rgb(200, 200, 200);
-    border-radius: 16px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    text-align: center;
-    font-size: .8rem;
-    font-weight: bold;
-}
-
-.add-todo-list{
-    height: 50px;
-    color: rgba(8, 8, 8, 0.4);
-    background-color: rgb(200, 200, 200);
-    border-radius: 16px;
-    text-align: center;
-    font-size: .8rem;
-    font-weight: bold;
 }
