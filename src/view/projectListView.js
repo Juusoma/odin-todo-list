@@ -31,10 +31,12 @@ export function handleProjectListView(user){
             console.error("Project title is invalid!", project);
         }
 
-        const newProjectButton = document.createElement("button");
+        const newProjectButton = document.createElement("div");     // can't drag <button>! At least not well.
         newProjectButton.classList.add("project-button");
         newProjectButton.textContent = project.title;
         newProjectButton.dataset.id = project.id;
+
+        //newProjectButton.addEventListener("mousedown", e => e.preventDefault());
 
         makeElementDraggable(newProjectButton, "project");
 

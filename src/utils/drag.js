@@ -1,4 +1,5 @@
 let placeholder = null;
+let activeDragElement;
 
 function createPlaceholder(element){
     placeholder = document.createElement("div");
@@ -7,6 +8,8 @@ function createPlaceholder(element){
     const rect = element.getBoundingClientRect();
     placeholder.style.width = rect.width + "px";
     placeholder.style.height = rect.height + "px";
+    placeholder.style.display = "none";
+    console.log("createPlaceholder");
 }
 
 export function makeElementDraggable(element, type){
@@ -19,91 +22,83 @@ export function makeElementDraggable(element, type){
     function handleDragStart(e){
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("drag-type", type);
+        e.dataTransfer.setData("element-id", nearestDraggableElement.dataset.id);
         createPlaceholder(nearestDraggableElement);
         nearestDraggableElement.classList.add("dragged");
+        activeDragElement = nearestDraggableElement;
     }
 
     function handleDragEnd(_e){
         nearestDraggableElement.classList.remove("dragged");
+        if(activeDragElement){
+            activeDragElement.style["display"] = "";
+            activeDragElement = null;
+        }
     }
 }
 
-export function makeElementDropTarget(element, type, vertical = true){
+export function makeElementDropTarget(element, type, vertical = true, track = null){
+    if(track == null) track = element;
     element.addEventListener("dragover", (e) => {
         if(e.dataTransfer.getData("drag-type") === type){
             e.preventDefault();
             if(placeholder){
                 let nearestElement = null;
                 let nearestDist = Number.MAX_VALUE;
-                Array.from(element.children).forEach((sibling) => {
+                Array.from(track.children).forEach((sibling) => {
                     if(sibling.dataset.id ==  null) return;     //Only drag anything with IDs (todo-project, -list, or -item)
+                    if(sibling === activeDragElement && sibling.style.display == "none") return;
 
-                    const currentRect = sibling.getBoundingClientRect();
-                    let currentDist;
-                    if(vertical){
-                        currentDist = Math.abs(currentRect.top - e.pageY);
-                    }
-                    else{
-                        currentDist = Math.abs(currentRect.left - e.pageX);
-                    }
+                    const rect = sibling.getBoundingClientRect();
+                    let center = vertical? (rect.top + (rect.bottom - rect.top)/2):(rect.left + (rect.right - rect.left)/2);
+                    let mousePos = vertical? e.pageY:e.pageX;
+                    let dist = Math.abs(center - mousePos);
 
-                    if(nearestElement == null || nearestDist > currentDist){
+                    if(nearestElement == null || nearestDist > dist){
                         nearestElement = sibling;
-                        nearestDist = currentDist;
+                        nearestDist = dist;
                     }
                 });
 
-                //console.log(nearestElement);
-
-                if(placeholder.parentElement !== element)
-                    element.appendChild(placeholder);
-
-
                 if(nearestElement){
-                    const nextSibling = nearestElement.nextSibling
-                    let isLast = false;
-                    if(!nextSibling) isLast = true;
-                    else{
-                        if(nextSibling.dataset.id == null) isLast = true;
+                    if(activeDragElement && nearestElement !== activeDragElement){
+                        activeDragElement.style["display"] = "none";
+                        placeholder.style["display"] = "";
+                        //document.body.appendChild(activeDragElement);
                     }
-                    if(!isLast){
+                    const rect = nearestElement.getBoundingClientRect();
+                    let center = vertical? (rect.top + (rect.bottom - rect.top)/2):(rect.left + (rect.right - rect.left)/2);
+                    let mousePos = vertical? e.pageY:e.pageX;
+                    let dist = center - mousePos;
+                    if(dist < 0){
+                        nearestElement.after(placeholder);
+                    }
+                    else{
                         nearestElement.before(placeholder);
                     }
-                    else{
-                        const rect = nearestElement.getBoundingClientRect();
-                        let center = vertical? (rect.top + (rect.bottom - rect.top)/2):(rect.left + (rect.right - rect.left)/2);
-                        let mousePos = vertical? e.pageY:e.pageX;
-                        let dist = center - mousePos;
-                        console.log(dist);
-                        if(dist < 0){
-                            nearestElement.after(placeholder);
-                        }
-                        else{
-                            nearestElement.before(placeholder);
-                        }
-                    }
+                }
+                else{
+                    activeDragElement.style["display"] = "none";
+                    placeholder.style["display"] = "";
+                    track.prepend(placeholder);
                 }
             }
         }
     });
 
-    element.addEventListener("dragleave", (e) => {
-        //console.log("dragleave");
-    });
-
-    element.addEventListener("dragenter", (e) => {
-        //console.log("dragenter");
-    });
-
     element.addEventListener("dragend", (e) => {
         if(placeholder) placeholder.remove();
-        placeholder = null;
-        console.log("dragend");
     });
 
     element.addEventListener("drop", (e) => {
-        if(e.dataTransfer.getData("drag-type") === type){
+        if(e.dataTransfer.getData("drag-type") === type && placeholder){
             e.preventDefault();
+            const id = e.dataTransfer.getData("element-id");
+            const draggedElement = document.querySelector(`[data-id="${id}"`);
+            if(draggedElement){
+                placeholder.before(draggedElement);
+            }
+            placeholder.remove();
         }
     });
 }

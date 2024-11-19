@@ -1,4 +1,4 @@
-import { makeElementDraggable } from "../utils/drag";
+import { makeElementDraggable, makeElementDropTarget } from "../utils/drag";
 import { makePositionedInputContainer } from "./positionedInput";
 import { handleTodoItemView } from "./todoItemView";
 
@@ -50,9 +50,7 @@ export function handleTodoListView(user){
                     ${todoList.title}
                 </h2>
             </div>
-            <div class="list-items-container">
-
-            </div>
+            <div class="list-items-container"></div>
             <button class="add-todo-item basic-button">
                 + Add item
             </button>
@@ -62,6 +60,8 @@ export function handleTodoListView(user){
 
         const titleElement = listElement.querySelector(".list-title-container");
         makeElementDraggable(titleElement, "todo-list");
+        const todoItemsContainer = listElement.querySelector(".list-items-container");
+        makeElementDropTarget(listElement, "todo-item", true, todoItemsContainer);
 
         listsContainer.insertBefore(listElement, addListButton);
 

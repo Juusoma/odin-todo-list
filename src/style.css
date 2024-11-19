@@ -124,7 +124,8 @@ button:hover{
 }
 
 .drag-placeholder{
-    background-color: grey;
+    background-color: var(--color-grey);
+    box-shadow: inset 0 0 4px 0 white;
     border-radius: 8px;
     width: 100%;
     height: 100%;
@@ -225,13 +226,14 @@ button:hover{
 
 .project-button{
     position: relative;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: bold;
     color: var(--color-grey);
-    padding: 12px;
     border-radius: 8px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    text-align: center;
+    align-content: center;
 }
 
 .project-button:hover{
@@ -268,7 +270,7 @@ button:hover{
     z-index: 1;
 }
 
-.projects-list > .create-project{
+.create-project{
     grid-row: span 2;
     justify-self: center;
     align-self: center;
@@ -276,7 +278,6 @@ button:hover{
     border-radius: 8px;
     opacity: .8;
 }
-
 
 
 
@@ -326,7 +327,6 @@ button:hover{
 }
 
 .list-container{
-    background-color: rgb(255, 255, 255);
     border-radius: 16px;
     overflow: hidden;
     display: flex;
@@ -358,6 +358,11 @@ button:hover{
     flex-direction: column;
     padding: 8px;
     gap: 8px;
+    box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.404);
+}
+
+.list-items-container:empty{
+    padding: 0;
 }
 
 .list-item{
@@ -414,10 +419,15 @@ button:hover{
 }
 
 .list-item-edit{
-    grid-area: 3 / 2;
+    grid-area: 1 / 2;
     justify-self: center;
     align-self: center;
+    visibility: hidden;
 }
+
+/*.list-item:hover .list-item-edit{
+    visibility: visible;
+}*/
 
 .list-item-due{
     grid-area: 3 / 1;

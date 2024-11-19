@@ -15,7 +15,7 @@ export function handleTodoItemView(user, todoList, listElement){
     const todoItemsContainer = listElement.querySelector(".list-items-container");
     const addTodoItemButton = listElement.querySelector(".add-todo-item");
     makePositionedInputContainer(addTodoItemButton, handleCreateTodoItemInput);
-    makeElementDropTarget(todoItemsContainer, "todo-item", true);
+    //makeElementDropTarget(todoItemsContainer, "todo-item", true);
 
     initializeItems();
 
