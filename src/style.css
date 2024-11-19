@@ -317,11 +317,11 @@ button:hover{
     display: flex;
     flex-direction: column;
     height: max-content;
+    --list-hue: 50deg;
 }
 
 .list-title-container{
-    --hue: 25deg;
-    --color-deep: hsl(var(--hue),100%,50%);
+    --color-deep: hsl(var(--list-hue),100%,40%);
     background: var(--color-deep);
     box-shadow: 0 0 4px 0 black,
                 inset 0 0 12px 0 rgba(255, 255, 255, 0.541);

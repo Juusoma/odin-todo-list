@@ -16,8 +16,10 @@ handleTodoListView(mainUser);
 function createDummyContent(user){
     const dummyProject = user.addProject("Super Broker Extreme");
     const dummyList1 = dummyProject.addTodoList("In Production");
-    const dummyItem1 = dummyList1.addTodoItem("Cook book");
-    const dummyItem2 = dummyList1.addTodoItem("Brush car");
+    const dummyItem11 = dummyList1.addTodoItem("Cook book");
+    const dummyItem12 = dummyList1.addTodoItem("Brush car");
+    const dummyList2 = dummyProject.addTodoList("Done");
+    const dummyItem21 = dummyList2.addTodoItem("Run outside");
 }
 
 createDummyContent(mainUser);

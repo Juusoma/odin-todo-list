@@ -50,6 +50,7 @@ export function handleTodoListView(user){
                 + Add item
             </button>
         `;
+        listElement.style.setProperty("--list-hue", todoList.hue + "deg");
         const addListButton = listsContainer.querySelector(".add-todo-list");
         listsContainer.insertBefore(listElement, addListButton);
 

@@ -4,6 +4,7 @@ import { createTodoItem } from "./todoItem";
 function createTodoList(pubSub, title){
     const _id = generateID("list");
     let _title = title;
+    let _hue = Math.floor(Math.random() * 360);
     let _todoItems = [];
 
     function addTodoItem(title){
@@ -38,6 +39,9 @@ function createTodoList(pubSub, title){
         },
         get title(){
             return _title;
+        },
+        get hue(){
+            return _hue;
         },
         get todoItems(){
             return _todoItems;
