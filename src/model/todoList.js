@@ -9,14 +9,14 @@ function createTodoList(pubSub, title){
     function addTodoItem(title){
         const todoItem = createTodoItem(pubSub, title);
         _todoItems.push(todoItem);
-        pubSub.publish("todo-item-add", todoItem);
+        pubSub.publish("todo-item-add-" + _id, todoItem);
         return todoItem;
     }
 
     function removeTodoItem(id){
         const index = _todoItems.findIndex(x => x.id === id);
         if(index > -1){
-            pubSub.publish("todo-item-remove", _todoItems[index]);
+            pubSub.publish("todo-item-remove-" + _id, _todoItems[index]);
             _todoItems.splice(index, 1);
         }
     }
@@ -38,6 +38,9 @@ function createTodoList(pubSub, title){
         },
         get title(){
             return _title;
+        },
+        get todoItems(){
+            return _todoItems;
         },
         addTodoItem,
         removeTodoItem,

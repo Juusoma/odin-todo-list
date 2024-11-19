@@ -1,4 +1,5 @@
 import { makePositionedInputContainer } from "./positionedInput";
+import { handleTodoItemView } from "./todoItemView";
 
 export function handleTodoListView(user){
     user.pubSub.subscribe('project-change', handleProjectChange);
@@ -9,6 +10,7 @@ export function handleTodoListView(user){
 
     function handleProjectChange(project){
         clearLists();
+        initializeTodoLists(project);
     }
 
     function clearLists(){
@@ -18,23 +20,23 @@ export function handleTodoListView(user){
         newListButton.textContent = "+ Add list";
         listsContainer.appendChild(newListButton);
 
-        makePositionedInputContainer(newListButton, handleCreateListInput);
+        makePositionedInputContainer(newListButton, handleCreateTodoListInput);
 
-        function handleCreateListInput(title){
+        function handleCreateTodoListInput(title){
             user.currentProject.addTodoList(title);
         }
+    }
 
-        /*createProjectButton.addEventListener("click", () => {
-            const hasPositionedInput = createProjectButton.querySelector(".positioned-input-container");
-            if(!hasPositionedInput){
-                createPositionedTextInput(createProjectButton, handleProjectCreateInput);
-            }
-        });*/
+    function initializeTodoLists(project){
+        project.todoLists.forEach(x => {
+            handleTodoListAdd(x);
+        });
     }
 
     function handleTodoListAdd(todoList){
         const listElement = document.createElement("div");
         listElement.classList.add("list-container");
+        listElement.dataset.id = todoList.id;
         listElement.innerHTML = `
             <div class="list-title-container">
                 <h2 class="list-title">
@@ -50,9 +52,11 @@ export function handleTodoListView(user){
         `;
         const addListButton = listsContainer.querySelector(".add-todo-list");
         listsContainer.insertBefore(listElement, addListButton);
+
+        handleTodoItemView(user, todoList, listElement);
     }
 
     function handleTodoListRemove(todoList){
-
+        //TODO
     }
 }

@@ -41,6 +41,9 @@ function createProject(pubSub, title){
         get id(){
             return _id;
         },
+        get todoLists(){
+            return _todoLists;
+        },
         addTodoList,
         removeTodoList,
         log,

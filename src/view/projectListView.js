@@ -31,7 +31,7 @@ export function handleProjectListView(user){
         const newProjectButton = document.createElement("button");
         newProjectButton.classList.add("project-button");
         newProjectButton.textContent = project.title;
-        newProjectButton.dataset.projectId = project.id;
+        newProjectButton.dataset.id = project.id;
         projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
     }
 
@@ -41,7 +41,7 @@ export function handleProjectListView(user){
 
     function handleProjectChange(project){
         Array.from(projectsListContainer.children).forEach(x => {
-            const projectId = x.dataset.projectId;
+            const projectId = x.dataset.id;
             if(projectId === project.id){
                 x.classList.add("selected");
             }
@@ -52,7 +52,7 @@ export function handleProjectListView(user){
     }
 
     function handleProjectListClick(e){
-        const projectId = e.target.dataset.projectId;
+        const projectId = e.target.dataset.id;
         if(projectId){
             user.loadProject(projectId);
         }
