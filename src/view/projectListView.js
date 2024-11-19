@@ -1,16 +1,11 @@
-import { createPositionedTextInput } from "./positionedInput";
+import { createPositionedTextInput, makePositionedInputContainer } from "./positionedInput";
 
 
-export function handleProjectView(user){
+export function handleProjectListView(user){
     const createProjectButton = document.querySelector(".create-project");
-    createProjectButton.addEventListener("click", () => {
-        const hasPositionedInput = createProjectButton.querySelector(".positioned-input-container");
-        if(!hasPositionedInput){
-            createPositionedTextInput(createProjectButton, handleProjectCreateInput);
-        }
-    });
+    makePositionedInputContainer(createProjectButton, handleCreateProjectInput);
     
-    function handleProjectCreateInput(inputValue){
+    function handleCreateProjectInput(inputValue){
         if(typeof inputValue === 'string'){
             const newProject = user.addProject(inputValue);
             user.loadProject(newProject.id);

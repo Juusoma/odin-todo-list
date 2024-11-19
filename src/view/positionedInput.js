@@ -24,3 +24,12 @@ export function createPositionedTextInput(target, callback){
         inputContainer.remove();
     }, {once: true});
 }
+
+export function makePositionedInputContainer(element, handler){
+    element.addEventListener("click", () => {
+        const hasPositionedInput = element.querySelector(".positioned-input-container");
+        if(!hasPositionedInput){
+            createPositionedTextInput(element, handler);
+        }
+    });
+}

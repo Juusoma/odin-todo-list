@@ -1,11 +1,14 @@
 import "./style.css";
 import { createUser } from "./model/user.js";
-import { handleProjectView } from "./view/projectView.js";
+import { handleProjectListView } from "./view/projectListView.js";
+import { handleProjectToolbarView } from "./view/projectToolbarView.js";
+import { handleTodoListView } from "./view/todoListView.js";
 
 const mainUser = createUser("Admin");
 
-handleProjectView(mainUser);
-
+handleProjectListView(mainUser);
+handleProjectToolbarView(mainUser);
+handleTodoListView(mainUser);
 
 
 
