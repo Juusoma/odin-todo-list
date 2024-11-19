@@ -8,6 +8,8 @@ export function handleTodoListView(user){
 
     const listsContainer = document.querySelector(".lists-main-container");
 
+    handleProjectChange();
+
     function handleProjectChange(project){
         clearLists();
         initializeTodoLists(project);
@@ -28,12 +30,16 @@ export function handleTodoListView(user){
     }
 
     function initializeTodoLists(project){
+        if(!project) return;
+
         project.todoLists.forEach(x => {
             handleTodoListAdd(x);
         });
     }
 
     function handleTodoListAdd(todoList){
+        if(!user.currentProject) return;
+
         const listElement = document.createElement("div");
         listElement.classList.add("list-container");
         listElement.dataset.id = todoList.id;

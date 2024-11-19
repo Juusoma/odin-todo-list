@@ -417,9 +417,20 @@ button:hover{
     align-self: center;
     --saturation: 0%;
     --hue: 0deg;
-    --active-color: hsla(var(--hue), var(--saturation), 40%, 1);
-    background-color: hsla(var(--hue), var(--saturation), 85%, 1);
+    --text-lightness: 40%;
+    --bg-lightness: 85%;
+    --active-color: hsla(var(--hue), var(--saturation), var(--text-lightness), 1);
+    background-color: hsla(var(--hue), var(--saturation), var(--bg-lightness), 1);
     color: var(--active-color);
+}
+
+.list-item-due:hover{
+    box-shadow: inset 0 0 4px 0 var(--color-grey);
+}
+
+.isDue{
+    --text-lightness: 85%;
+    --bg-lightness: 25%;
 }
 
 .good{
