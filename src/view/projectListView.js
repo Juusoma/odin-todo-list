@@ -1,3 +1,4 @@
+import { makeElementDraggable, makeElementDropTarget } from "../utils/drag";
 import { createPositionedTextInput, makePositionedInputContainer } from "./positionedInput";
 
 
@@ -23,6 +24,8 @@ export function handleProjectListView(user){
     projectsListContainer.addEventListener("click", handleProjectListClick);
     projectsCollapseButton.addEventListener("click", handleProjectsListCollapse);
 
+    makeElementDropTarget(projectsListContainer, "project", true);
+
     function handleProjectAdd(project){
         if(typeof project.title !== 'string'){
             console.error("Project title is invalid!", project);
@@ -32,6 +35,10 @@ export function handleProjectListView(user){
         newProjectButton.classList.add("project-button");
         newProjectButton.textContent = project.title;
         newProjectButton.dataset.id = project.id;
+
+        makeElementDraggable(newProjectButton, "project");
+
+
         projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
     }
 

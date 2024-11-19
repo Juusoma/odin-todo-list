@@ -1,3 +1,4 @@
+import { makeElementDraggable } from "../utils/drag";
 import { makePositionedInputContainer } from "./positionedInput";
 import { handleTodoItemView } from "./todoItemView";
 
@@ -44,7 +45,7 @@ export function handleTodoListView(user){
         listElement.classList.add("list-container");
         listElement.dataset.id = todoList.id;
         listElement.innerHTML = `
-            <div class="list-title-container">
+            <div class="list-title-container" draggable="true">
                 <h2 class="list-title">
                     ${todoList.title}
                 </h2>
@@ -58,6 +59,10 @@ export function handleTodoListView(user){
         `;
         listElement.style.setProperty("--list-hue", todoList.hue + "deg");
         const addListButton = listsContainer.querySelector(".add-todo-list");
+
+        const titleElement = listElement.querySelector(".list-title-container");
+        makeElementDraggable(titleElement, "todo-list");
+
         listsContainer.insertBefore(listElement, addListButton);
 
         handleTodoItemView(user, todoList, listElement);

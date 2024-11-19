@@ -3,6 +3,7 @@ import { createUser } from "./model/user.js";
 import { handleProjectListView } from "./view/projectListView.js";
 import { handleProjectToolbarView } from "./view/projectToolbarView.js";
 import { handleTodoListView } from "./view/todoListView.js";
+import { makeElementDropTarget } from "./utils/drag.js";
 
 const mainUser = createUser("Admin");
 
@@ -10,7 +11,8 @@ handleProjectListView(mainUser);
 handleProjectToolbarView(mainUser);
 handleTodoListView(mainUser);
 
-
+const listsContainer = document.querySelector(".lists-main-container");
+makeElementDropTarget(listsContainer, "todo-list", false);
 
 
 function createDummyContent(user){
