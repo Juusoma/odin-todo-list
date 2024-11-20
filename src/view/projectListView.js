@@ -24,7 +24,7 @@ export function handleProjectListView(user){
     projectsListContainer.addEventListener("click", handleProjectListClick);
     projectsCollapseButton.addEventListener("click", handleProjectsListCollapse);
 
-    makeElementDropTarget(projectsListContainer, "project", true);
+    makeElementDropTarget(user, projectsListContainer, "project", true);
 
     function handleProjectAdd(project){
         if(typeof project.title !== 'string'){

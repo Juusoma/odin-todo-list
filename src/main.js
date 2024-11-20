@@ -11,9 +11,6 @@ handleProjectListView(mainUser);
 handleProjectToolbarView(mainUser);
 handleTodoListView(mainUser);
 
-const listsContainer = document.querySelector(".lists-main-container");
-makeElementDropTarget(listsContainer, "todo-list", false);
-
 
 function createDummyContent(user){
     const dummyProject = user.addProject("Super Broker Extreme");

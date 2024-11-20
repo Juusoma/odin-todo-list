@@ -7,6 +7,7 @@ function createProject(pubSub, title){
     const _title = title;
     let _todoLists = [];
 
+    pubSub.subscribe('drag-n-drop-list', handleListDragAndDrop);
 
     function addTodoList(title){
         const todoList = createTodoList(pubSub, title);
@@ -27,6 +28,16 @@ function createProject(pubSub, title){
         console.log(`Project (${_id}): ${_title}`);
         for(let list of _todoLists){
             list.log();
+        }
+    }
+
+    function handleListDragAndDrop({id, newIndex}){
+        const oldIndex = _todoLists.findIndex(x => x.id === id);
+        
+        if(oldIndex !== -1){
+            const todoList = _todoLists[oldIndex];
+            _todoLists.splice(oldIndex, 1);
+            _todoLists.splice(newIndex, 0, todoList);
         }
     }
 

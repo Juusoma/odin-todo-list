@@ -8,6 +8,7 @@ export function handleTodoListView(user){
     user.pubSub.subscribe('todo-list-remove', handleTodoListRemove);
 
     const listsContainer = document.querySelector(".lists-main-container");
+    makeElementDropTarget(user, listsContainer, "todo-list", false);
 
     handleProjectChange();
 
@@ -24,6 +25,7 @@ export function handleTodoListView(user){
         listsContainer.appendChild(newListButton);
 
         makePositionedInputContainer(newListButton, handleCreateTodoListInput);
+
 
         function handleCreateTodoListInput(title){
             user.currentProject.addTodoList(title);
@@ -61,7 +63,7 @@ export function handleTodoListView(user){
         const titleElement = listElement.querySelector(".list-title-container");
         makeElementDraggable(titleElement, "todo-list");
         const todoItemsContainer = listElement.querySelector(".list-items-container");
-        makeElementDropTarget(listElement, "todo-item", true, todoItemsContainer);
+        makeElementDropTarget(user, listElement, "todo-item", true, todoItemsContainer);
 
         listsContainer.insertBefore(listElement, addListButton);
 

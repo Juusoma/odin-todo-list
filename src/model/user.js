@@ -7,6 +7,7 @@ export function createUser(name){
     let _currentProject = null;
 
     const _pubSub = createPubSubBroker();
+    _pubSub.subscribe('drag-n-drop-project', handleProjectDragAndDrop);
 
     function addProject(title){
         const project = createProject(_pubSub, title);
@@ -36,6 +37,17 @@ export function createUser(name){
         else{
             _currentProject = _projects[index];
             _pubSub.publish(`project-change`, _currentProject);
+        }
+    }
+
+    function handleProjectDragAndDrop({id, newIndex}){
+        const oldIndex = _projects.findIndex(x => x.id === id);
+        
+        if(oldIndex !== -1){
+            const project = _projects[oldIndex];
+            _projects.splice(oldIndex, 1);
+            _projects.splice(newIndex, 0, project);
+            console.log(_projects);
         }
     }
 
