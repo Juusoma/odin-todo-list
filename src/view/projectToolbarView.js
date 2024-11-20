@@ -8,8 +8,15 @@ export function handleProjectToolbarView(user){
 
     const projectSettingsModal = document.querySelector(".project-settings");
 
+    projectTitle.addEventListener("keyup", (e) => {
+        if(e.key === "Enter")
+            projectTitle.blur();
+    });
+
+    projectTitle.addEventListener("blur", handleProjectTitleChange);
+
     function handleProjectChange(project){
-        projectTitle.textContent = project.title;
+        projectTitle.value = project.title;
     }
 
     function handleProjectSettings(){
@@ -17,5 +24,14 @@ export function handleProjectToolbarView(user){
         const rect = projectToolbar.getBoundingClientRect();
         projectSettingsModal.style.top = rect.bottom +"px";
         projectSettingsModal.style.left = rect.left +"px";
+    }
+
+    function handleProjectTitleChange(_e){
+        if(user.currentProject){
+            user.pubSub.publish("info-change-" + user.currentProject.id, {
+                id: user.currentProject.id,
+                title: projectTitle.value,
+            });
+        }
     }
 }

@@ -4,10 +4,11 @@ import { createTodoList } from "./todoList";
 
 function createProject(pubSub, title){
     const _id = generateID("project");
-    const _title = title;
+    let _title = title;
     let _todoLists = [];
 
     pubSub.subscribe('drag-n-drop-list', handleListDragAndDrop);
+    pubSub.subscribe('info-change-'+_id, handleInfoChange);
 
     function addTodoList(title){
         const todoList = createTodoList(pubSub, title);
@@ -38,6 +39,13 @@ function createProject(pubSub, title){
             const todoList = _todoLists[oldIndex];
             _todoLists.splice(oldIndex, 1);
             _todoLists.splice(newIndex, 0, todoList);
+        }
+    }
+
+    function handleInfoChange({title}){
+        if(title){
+            _title = title;
+            pubSub.publish(`todo-project-update-${_id}`, {title});
         }
     }
 

@@ -39,9 +39,14 @@ export function handleProjectListView(user){
         //newProjectButton.addEventListener("mousedown", e => e.preventDefault());
 
         makeElementDraggable(newProjectButton, "project");
+        user.pubSub.subscribe("info-change-"+project.id, handleProjectInfoChange.bind(newProjectButton));
 
 
         projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
+    }
+
+    function handleProjectInfoChange({id, title}){
+        this.textContent = title;
     }
 
     function handleProjectRemove(_project){

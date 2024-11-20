@@ -5,7 +5,7 @@ body{
     user-select: none;
 
     --color-grey-dark: rgb(78, 78, 78);
-    --color-grey: rgb(162, 162, 162);
+    --color-grey: rgb(130, 130, 130);
     --color-grey-light: rgb(212, 212, 212);
 
     --color-main: rgb(27, 106, 255);
@@ -106,14 +106,14 @@ button:hover{
     gap: 8px;
     padding: 8px;
 
-    background: #b2b2b2;
+    background: var(--color-accent);
     color: var(--color-grey-dark);
-    border: 3px solid var(--color-main);
+    border: 2px solid var(--color-main);
     border-radius: inherit;
 }
 
 .positioned-input-container > label{
-    color: var(--color-grey-dark);
+    color: var(--color-grey);
 }
 
 .positioned-input-container > input[type="text"] {
@@ -317,6 +317,13 @@ button:hover{
 .project-toolbar-title{
     font-size: 1.4rem;
     font-weight: bold;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.project-toolbar-title:focus{
+    background: var(--color-accent);
+    outline: 2px solid var(--color-main);
 }
 
 /*.project-toolbar-settings{
