@@ -58,7 +58,7 @@ button:hover{
 }
 
 .icon-button:hover{
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(230, 230, 230, 0.5);
 }
 
 .icon-button > .filled{
@@ -304,18 +304,26 @@ button:hover{
     margin: 32px;
     width: max-content;
     height: 50px;
-    padding-inline: 32px;
+    padding-inline: 16px;
     background-color: white;
     border-radius: 25px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 16px;
 }
 
 .project-toolbar-title{
     font-size: 1.4rem;
     font-weight: bold;
+}
+
+/*.project-toolbar-settings{
+}*/
+
+.project-toolbar-settings svg{
+    fill: var(--color-grey);
 }
 
 .lists-main-container{
@@ -490,4 +498,93 @@ button:hover{
 .add-todo-item{
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+
+.modal{
+    background-color: var(--color-accent);
+    border: 2px solid var(--color-main);
+    border-radius: 16px;
+}
+
+.modal::backdrop{
+    background-color: black;
+    opacity: .5;
+}
+
+.modal-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px;
+}
+
+.modal-form-input-container{
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal-form-input-container input{
+    width: 250px;
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid grey;
+}
+
+.modal-form-input-container input:focus{
+    outline: 2px solid var(--color-main);
+    box-shadow: 2px 2px 2px 0 grey;
+}
+
+.modal-form-actions-container{
+    margin-top: 16px;
+    display: grid;
+    grid-auto-columns: 100px;
+    grid-auto-flow: column;
+    grid-template-rows: 40px;
+    gap: 16px;
+}
+
+.modal-form-actions-container *{
+    width: 100%;
+    height: 100%;
+}
+
+.modal-form-actions-container .cancel{
+    background-color: rgba(212, 212, 212, 0);
+    border: 2px solid rgba(8, 8, 8, 0.4);
+}
+
+.modal-form-actions-container .save{
+    background-color: rgb(130, 255, 114);
+    border: 2px solid rgba(8, 8, 8, 0.4);
+}
+
+.divider{
+    margin-block: 16px;
+    height: 2px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modal-danger-zone{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 32px;
+    padding: 16px;
+    gap: 32px;
+    color: rgb(104, 0, 0);
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 16px;
+}
+
+.modal-danger-zone > button{
+    background-color: rgb(227, 0, 0);
+    border: 2px solid rgba(8, 8, 8, 0.4);
+    padding-inline: 16px;
 }
