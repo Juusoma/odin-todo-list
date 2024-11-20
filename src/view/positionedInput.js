@@ -14,13 +14,18 @@ export function createPositionedTextInput(target, callback){
     target.appendChild(inputContainer);
     const textInput = inputContainer.querySelector("#positioned-input-name");
     textInput.focus();
-    inputContainer.addEventListener("focusout", () => {
+
+    let removed = false;
+    inputContainer.addEventListener("focusout", () => {     //focusout is dispatched when node is remove()?!?!
+        if(removed) return;
         inputContainer.remove();
     }, {once: true});
     inputContainer.addEventListener("submit", e => {
+        console.log("submit")
         e.preventDefault();
 
         if(typeof callback === 'function') callback(textInput.value);
+        removed = true;
         inputContainer.remove();
     }, {once: true});
 }

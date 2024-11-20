@@ -1,5 +1,6 @@
 let placeholder = null;
 let activeDragElement;
+let dragType = null;
 
 function createPlaceholder(element){
     placeholder = document.createElement("div");
@@ -21,8 +22,9 @@ export function makeElementDraggable(element, type){
 
     function handleDragStart(e){
         e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData("drag-type", type);
+        dragType = type;
         e.dataTransfer.setData("element-id", nearestDraggableElement.dataset.id);
+        e.dataTransfer.setDragImage(nearestDraggableElement, e.offsetX, e.offsetY);
         createPlaceholder(nearestDraggableElement);
         nearestDraggableElement.classList.add("dragged");
         activeDragElement = nearestDraggableElement;
@@ -40,7 +42,7 @@ export function makeElementDraggable(element, type){
 export function makeElementDropTarget(element, type, vertical = true, track = null){
     if(track == null) track = element;
     element.addEventListener("dragover", (e) => {
-        if(e.dataTransfer.getData("drag-type") === type){
+        if(dragType === type){
             e.preventDefault();
             if(placeholder){
                 let nearestElement = null;
@@ -91,7 +93,7 @@ export function makeElementDropTarget(element, type, vertical = true, track = nu
     });
 
     element.addEventListener("drop", (e) => {
-        if(e.dataTransfer.getData("drag-type") === type && placeholder){
+        if(dragType === type && placeholder){
             e.preventDefault();
             const id = e.dataTransfer.getData("element-id");
             const draggedElement = document.querySelector(`[data-id="${id}"`);
