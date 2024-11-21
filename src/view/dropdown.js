@@ -9,13 +9,14 @@
  * - buttonClass: Optional additional class to be added to the button
  * - onclick: Callback for clicking the option
  */
-export function createDropdownButton(button, x, y, options){
+export function createDropdownButton(button, options){
     let dropdown = null;
+    button.dataset.isDropdown = true;
+
     button.addEventListener("click", handleDropdownButtonClick);
 
     function handleDropdownButtonClick(e){
         if(!dropdown){
-            e.stopPropagation();
             dropdown = createDropdown();
         }
         else{
@@ -45,10 +46,14 @@ export function createDropdownButton(button, x, y, options){
             newDropdown.appendChild(button);
         }
     
+        const rect = button.getBoundingClientRect();
+        const x = rect.left + (rect.right - rect.left) / 2;
+        const y = rect.bottom;
         newDropdown.style.left = x +"px";
         newDropdown.style.top = y +"px";
     
-        document.addEventListener("click", handleClick, {once: true});
+        //Use mousedown to avoid firing handleClick immediately (click event is still bubbling here)
+        document.addEventListener("mousedown", handleClick, {once: true});
     
         function handleClick(e){
             const dropdownOption = e.target.closest(".dropdown-option");
