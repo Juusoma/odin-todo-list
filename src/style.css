@@ -19,6 +19,7 @@ body{
     outline: none;
     border: none;
     color: inherit;
+    font-family: inherit;
 }
 
 a{
@@ -93,6 +94,20 @@ button:hover{
 
 .basic-button:hover{
     box-shadow: inset 0 0 10px 0 rgba(125, 125, 125, 0.4);
+}
+
+.basic-text-input{
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 4px;
+    background-color: transparent;
+}
+
+.basic-text-input:focus{
+    background: var(--color-accent);
+    outline: 2px solid var(--color-main);
+    color: black;
 }
 
 .positioned-input-container{
@@ -316,14 +331,6 @@ button:hover{
 
 .project-toolbar-title{
     font-size: 1.4rem;
-    font-weight: bold;
-    border-radius: 8px;
-    padding: 4px;
-}
-
-.project-toolbar-title:focus{
-    background: var(--color-accent);
-    outline: 2px solid var(--color-main);
 }
 
 .project-toolbar-options svg{
@@ -399,23 +406,31 @@ button:hover{
 }
 
 .list-title-container{
+    position: relative;
     --color-deep: hsl(var(--list-hue),100%,40%);
     background: var(--color-deep);
     box-shadow: 0 0 4px 0 black,
                 inset 0 0 12px 0 rgba(255, 255, 255, 0.541);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    height: 50px;
 }
 
 .list-title{
-    position: relative;
-    width: 100%;
-    padding: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    translate: -50% -50%;
+    padding: 4px;
 
     text-align: center;
     font-size: 1.2rem;
     color: white;
+    background-color: transparent;
+}
+
+.list-title-input{
+    max-width: calc(100% - 140px);
 }
 
 .list-options{
@@ -426,7 +441,7 @@ button:hover{
     translate: -50% -50%;
 }
 
-.list-title:hover .list-options{
+.list-title-container:hover .list-options{
     visibility: visible;
 }
 

@@ -51,12 +51,11 @@ export function handleTodoListView(user){
         listElement.dataset.id = todoList.id;
         listElement.innerHTML = `
             <div class="list-title-container" draggable="true">
-                <h2 class="list-title">
-                    ${todoList.title}
-                    <button class="list-options icon-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
-                    </button>
-                </h2>
+                <h2 id="list-title-text" class="list-title">${todoList.title}</h2>
+                <input hidden type="text" id="list-title-input" class="list-title basic-text-input" onfocus="select()" value="${todoList.title}">
+                <button class="list-options icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
+                </button>
             </div>
             <div class="list-items-container"></div>
             <button class="add-todo-item basic-button">
@@ -66,10 +65,33 @@ export function handleTodoListView(user){
         listElement.style.setProperty("--list-hue", todoList.hue + "deg");
         const addListButton = listsContainer.querySelector(".add-todo-list");
 
-        const titleElement = listElement.querySelector(".list-title-container");
-        makeElementDraggable(titleElement, "todo-list");
+        const titleContainer = listElement.querySelector(".list-title-container");
+        makeElementDraggable(titleContainer, "todo-list");
         const todoItemsContainer = listElement.querySelector(".list-items-container");
         makeElementDropTarget(user, listElement, "todo-item", true, todoItemsContainer);
+
+        
+        const titleText = titleContainer.querySelector("#list-title-text");
+        const titleInput = titleContainer.querySelector("#list-title-input");
+        titleText.addEventListener("click", (e) => {
+            titleText.setAttribute("hidden", true);
+            titleInput.removeAttribute("hidden");
+            titleInput.focus();
+        });
+
+        titleInput.addEventListener("blur", () => {
+            titleInput.setAttribute("hidden", true);
+            titleText.removeAttribute("hidden");
+        });
+        
+        
+        updateTitleElementSize();
+            
+        titleInput.addEventListener("input", updateTitleElementSize);
+
+        function updateTitleElementSize(){
+            titleInput.setAttribute("size", titleInput.value.length);
+        }
 
         listsContainer.insertBefore(listElement, addListButton);
 
