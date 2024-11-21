@@ -326,7 +326,7 @@ button:hover{
     outline: 2px solid var(--color-main);
 }
 
-.project-toolbar-settings svg{
+.project-toolbar-options svg{
     fill: var(--color-grey);
 }
 
@@ -408,10 +408,25 @@ button:hover{
 }
 
 .list-title{
+    position: relative;
+    width: 100%;
+    padding: 16px;
+
     text-align: center;
     font-size: 1.2rem;
-    padding: 16px;
     color: white;
+}
+
+.list-options{
+    visibility: hidden;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    translate: -50% -50%;
+}
+
+.list-title:hover .list-options{
+    visibility: visible;
 }
 
 .list-items-container{
