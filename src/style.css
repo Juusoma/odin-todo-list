@@ -342,7 +342,8 @@ button:hover{
 }
 
 .dropdown-option{
-    height: 40px;
+    min-width: 100px;
+    max-width: 300px;
     background-color: var(--color-accent);
     border: 2px solid var(--color-grey);
     border-radius: inherit;

@@ -8,7 +8,6 @@ function createProject(pubSub, title){
     let _todoLists = [];
 
     pubSub.subscribe('drag-n-drop-list', handleListDragAndDrop);
-    pubSub.subscribe('info-change-'+_id, handleInfoChange);
 
     function addTodoList(title){
         const todoList = createTodoList(pubSub, title);
@@ -42,11 +41,17 @@ function createProject(pubSub, title){
         }
     }
 
-    function handleInfoChange({title}){
+    function changeInfo({title}){
         if(title){
             _title = title;
-            pubSub.publish(`todo-project-update-${_id}`, {title});
+            pubSub.publish("info-change-" + _id, {
+                id: _id,
+                title,
+            });
+            return true;
         }
+
+        return false;
     }
 
     return {
@@ -66,6 +71,7 @@ function createProject(pubSub, title){
         addTodoList,
         removeTodoList,
         log,
+        changeInfo,
     }
 }
 
