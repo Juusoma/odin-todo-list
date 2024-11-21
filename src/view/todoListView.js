@@ -13,22 +13,24 @@ export function handleTodoListView(user){
     handleProjectChange();
 
     function handleProjectChange(project){
-        clearLists();
+        clearLists(project != null);
         initializeTodoLists(project);
     }
 
-    function clearLists(){
+    function clearLists(createNewListButton){
         listsContainer.innerHTML = "";
-        const newListButton = document.createElement("button");
-        newListButton.classList.add("add-todo-list", "basic-button");
-        newListButton.textContent = "+ Add list";
-        listsContainer.appendChild(newListButton);
-
-        makePositionedInputContainer(newListButton, handleCreateTodoListInput);
-
-
-        function handleCreateTodoListInput(title){
-            user.currentProject.addTodoList(title);
+        if(createNewListButton){
+            const newListButton = document.createElement("button");
+            newListButton.classList.add("add-todo-list", "basic-button");
+            newListButton.textContent = "+ Add list";
+            listsContainer.appendChild(newListButton);
+    
+            makePositionedInputContainer(newListButton, handleCreateTodoListInput);
+    
+    
+            function handleCreateTodoListInput(title){
+                user.currentProject.addTodoList(title);
+            }
         }
     }
 

@@ -40,6 +40,7 @@ export function handleProjectListView(user){
 
         makeElementDraggable(newProjectButton, "project");
         user.pubSub.subscribe("info-change-"+project.id, handleProjectInfoChange.bind(newProjectButton));
+        user.pubSub.subscribe("project-remove", handleProjectRemove);
 
 
         projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
@@ -49,14 +50,17 @@ export function handleProjectListView(user){
         this.textContent = title;
     }
 
-    function handleProjectRemove(_project){
-        //TODO
+    function handleProjectRemove(project){
+        const projectButton = Array.from(projectsListContainer.children).find(x => x.dataset.id === project.id);
+        if(projectButton){
+            projectButton.remove();
+        }
     }
 
-    function handleProjectChange(project){
+    function handleProjectChange(currentProject){
         Array.from(projectsListContainer.children).forEach(x => {
             const projectId = x.dataset.id;
-            if(projectId === project.id){
+            if(currentProject && projectId === currentProject.id){
                 x.classList.add("selected");
             }
             else{

@@ -17,8 +17,11 @@ export function createUser(name){
     }
 
     function removeProject(id){
+        if(!id) return;
         const index = _projects.findIndex(x => x.id === id);
         if(index > -1){
+            if(_currentProject === _projects[index])
+                loadProject(null);
             _pubSub.publish("project-remove", _projects[index]);
             _projects.splice(index, 1);
         }
@@ -33,11 +36,13 @@ export function createUser(name){
 
     function loadProject(id){
         const index = _projects.findIndex(x => x.id === id);
-        if(index === -1) console.error("Failed to load project!", id);
+        if(index === -1){
+            _currentProject = null;
+        }
         else{
             _currentProject = _projects[index];
-            _pubSub.publish(`project-change`, _currentProject);
         }
+        _pubSub.publish(`project-change`, _currentProject);
     }
 
     function handleProjectDragAndDrop({id, newIndex}){
