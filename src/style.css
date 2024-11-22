@@ -349,7 +349,7 @@ button:hover{
 }
 
 .dropdown-option{
-    min-width: 100px;
+    min-width: 40px;
     max-width: 300px;
     background-color: var(--color-accent);
     border: 2px solid var(--color-grey);
@@ -519,17 +519,14 @@ button:hover{
 }*/
 
 .list-item-due{
+    position: relative;
     grid-area: 3 / 1;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    padding: 8px;
-    background-color: rgb(255, 187, 187);
-    border-radius: 8px;
-    width: max-content;
-    align-self: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    align-content: center;
+    text-align: center;
     --saturation: 0%;
     --hue: 0deg;
     --text-lightness: 40%;
@@ -537,11 +534,40 @@ button:hover{
     --active-color: hsla(var(--hue), var(--saturation), var(--text-lightness), 1);
     background-color: hsla(var(--hue), var(--saturation), var(--bg-lightness), 1);
     color: var(--active-color);
+    visibility: hidden;
+    transition: all .16s;
+}
+
+.list-item-due.due-date-set{
+    visibility: visible;
+}
+
+.list-item:hover .list-item-due{
+    visibility: visible;
 }
 
 .list-item-due:hover{
     box-shadow: inset 0 0 4px 0 var(--color-grey);
 }
+
+.list-item-due:active{
+    scale: 1.1;
+    filter: brightness(1.06);
+}
+
+/*.list-item-due:hover::after{
+    content: "add";
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    translate: -50% -50%;
+    text-align: center;
+    align-content: center;
+    font-size: .7rem;
+}*/
 
 .isDue{
     --text-lightness: 85%;
@@ -549,13 +575,13 @@ button:hover{
 }
 
 .good{
-    --hue: 120deg;
-    --saturation: 50%;
+    color: var(--color-main);
+    border-color:  var(--color-main);
+    background-color: rgb(139, 187, 255);
 }
 
 .bad{
-    --hue: 0deg;
-    --saturation: 50%;
+    color: red;
 }
 
 .list-item-due > svg{

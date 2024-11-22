@@ -1,4 +1,5 @@
 import { makeElementDraggable, makeElementDropTarget } from "../utils/drag";
+import { getRemainingTimeHue, getRemainingTimeString, isDue } from "../utils/time";
 import { createDropdownButton } from "./dropdown";
 import { makePositionedInputContainer } from "./positionedInput";
 
@@ -12,6 +13,7 @@ import { makePositionedInputContainer } from "./positionedInput";
 export function handleTodoItemView(user, todoList, listElement){
     user.pubSub.subscribe("todo-item-add-" + todoList.id, handleTodoItemAdd);
     user.pubSub.subscribe("todo-item-remove-" + todoList.id, handleTodoItemRemove);
+    user.pubSub.subscribe("todo-item-update", handleTodoItemUpdate);
 
     const todoItemsContainer = listElement.querySelector(".list-items-container");
     const addTodoItemButton = listElement.querySelector(".add-todo-item");
@@ -65,15 +67,16 @@ export function handleTodoItemView(user, todoList, listElement){
         //TODO
     }
 
-    function handleTodoItemUpdate(todoItem){
-        const itemElement = todoItemsContainer.querySelector(`[data-id=${todoItem.id}]`);
+    function handleTodoItemUpdate({id, dueDate}){
+        const itemElement = todoItemsContainer.querySelector(`[data-id=${id}]`);
         if(!itemElement) return;
 
         const itemDueElement = itemElement.querySelector(".list-item-due");
-        itemDueElement.textContent = todoItem.getRemainingTimeString();
+        itemDueElement.textContent = getRemainingTimeString(dueDate);
         itemDueElement.classList.remove("isDue");
-        if(todoItem.dueDate){
-            if(todoItem.isDue){
+        if(dueDate){
+            itemDueElement.classList.add("due-date-set");
+            if(isDue(dueDate)){
                 itemDueElement.style.setProperty("--saturation", "0%");
                 itemDueElement.classList.add("isDue");
                 itemDueElement.innerHTML =`
@@ -81,10 +84,11 @@ export function handleTodoItemView(user, todoList, listElement){
                  `;
             }else{
                 itemDueElement.style.setProperty("--saturation", "50%");
-                itemDueElement.style.setProperty("--hue", todoItem.getRemainingTimeHue() + "deg");
+                itemDueElement.style.setProperty("--hue", getRemainingTimeHue(dueDate) + "deg");
             }
         }
         else{
+            itemDueElement.classList.remove("due-date-set");
             itemDueElement.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"/></svg>
                 `
@@ -92,15 +96,17 @@ export function handleTodoItemView(user, todoList, listElement){
     }
 
     function handleTodoListClick(e){
-        const ignoreClick = e.target.closest(".list-item-due") != null;
-        if(ignoreClick) return;
-
         const closestTodoItem = e.target.closest(`[data-id^="item"]`);  //Any data-id that starts with "item"
         if(closestTodoItem){
-            //console.log("clicked on item:", closestTodoItem.getAttribute("data-id"));
             const todoItemID = closestTodoItem.getAttribute("data-id");
             const todoItem = todoList.getTodoItem(todoItemID);
-            openTodoItemModal(todoItem, closestTodoItem);
+            const clickedDueDate = e.target.closest(".list-item-due") != null;
+            if(clickedDueDate){
+                todoItem.extendDueDate({days: 1});
+            }
+            else{
+                openTodoItemModal(todoItem, closestTodoItem);
+            }
         }
     }
 

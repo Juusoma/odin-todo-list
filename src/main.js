@@ -21,6 +21,7 @@ function createDummyContent(user){
     const dummyList2 = dummyProject.addTodoList("Done");
     const dummyItem21 = dummyList2.addTodoItem("Run outside");
     const dummyItem22 = dummyList2.addTodoItem("Eat dinner");
+    const dummyItem23 = dummyList2.addTodoItem("Make bed");
     dummyItem11.extendDueDate({years: 2});
     dummyItem12.extendDueDate({hours: 4});
     dummyItem13.extendDueDate({minutes: .1});

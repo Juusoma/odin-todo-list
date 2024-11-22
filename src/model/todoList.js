@@ -38,7 +38,7 @@ function createTodoList(pubSub, title){
     }
 
     function handleItemDragAndDrop({id, newIndex, oldParentID, newParentID}){
-        if(oldParentID === _id && newParentID === id){
+        if(oldParentID === _id && newParentID === _id){
             const oldIndex = _todoItems.findIndex(x => x.id === id);
 
             if(oldIndex !== -1){
