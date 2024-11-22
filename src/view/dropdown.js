@@ -59,7 +59,7 @@ export function createDropdownButton(button, options){
             const dropdownOption = e.target.closest(".dropdown-option");
             if(dropdownOption){
                 const index = dropdownOption.dataset.index;
-                options[index].onclick();
+                options[index].onclick?.();
             }
             newDropdown.remove();
             newDropdown = null;

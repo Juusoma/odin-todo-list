@@ -3,7 +3,7 @@ import { generateID } from "../utils/id";
 function createTodoItem(pubSub, title){
     const _id = generateID("item");
     let _title = title;
-    let _description = "";
+    let _notes = "";
     let _dueDate = null;
     let _priority = 0;
     let _done = false;
@@ -56,7 +56,7 @@ function createTodoItem(pubSub, title){
     }
 
     function log(){
-        console.log(`Item (${_id}): ${_title}, ${_description}`);
+        console.log(`Item (${_id}): ${_title}, ${_notes}`);
     }
 
     return {
@@ -70,8 +70,8 @@ function createTodoItem(pubSub, title){
         get title(){
             return _title;
         },
-        get description(){
-            return _description;
+        get notes(){
+            return _notes;
         },
         get dueDate(){
             return _dueDate;

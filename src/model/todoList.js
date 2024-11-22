@@ -26,6 +26,10 @@ function createTodoList(pubSub, title){
         }
     }
 
+    function getTodoItem(id){
+        return _todoItems.find(x => x.id === id) ?? null;
+    }
+
     function log(){
         console.log(`List (${_id}): ${_title}`);
         for(let item of _todoItems){
@@ -90,6 +94,7 @@ function createTodoList(pubSub, title){
         },
         addTodoItem,
         removeTodoItem,
+        getTodoItem,
         log,
         changeInfo,
     }

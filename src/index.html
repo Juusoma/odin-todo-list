@@ -88,23 +88,27 @@
                 Delete
             </button>
         </div>-->
-        <dialog class="project-settings modal">
+        <dialog class="modal" id="todo-item-options">
             <div class="modal-content">
                 <form method="dialog" class="modal-form">
                     <div class="modal-form-input-container">
-                        <label for="project-title">Title:</label>
-                        <input type="text" id="project-title">
+                        <label for="todo-item-title">Title:</label>
+                        <input type="text" id="todo-item-title">
+                    </div>
+                    <div class="modal-form-input-container">
+                        <label for="todo-item-notes">Notes:</label>
+                        <textarea rows="3" id="todo-item-notes"></textarea>
                     </div>
                     <div class="modal-form-actions-container">
                         <button class="cancel basic-button">Cancel</button>
                         <button class="save basic-button">Save</button>
                     </div>
                 </form>
-                <div class="divider"></div>
+                <!--<div class="divider"></div>
                 <div class="modal-danger-zone">
-                    <span>Delete this project</span>
+                    <span>Delete this todo item</span>
                     <button class="delete basic-button">Delete</button>
-                </div>
+                </div>-->
             </div>
         </dialog>
     </div>

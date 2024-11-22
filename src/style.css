@@ -585,6 +585,7 @@ button:hover{
     background-color: var(--color-accent);
     border: 2px solid var(--color-main);
     border-radius: 16px;
+    color: var(--color-grey-dark);
 }
 
 .modal::backdrop{
@@ -595,44 +596,44 @@ button:hover{
 .modal-form{
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 16px;
     padding: 32px;
 }
 
 .modal-form-input-container{
     font-weight: bold;
-    display: flex;
+    display: grid;
     align-items: center;
+    grid-template-columns: 60px 1fr;
     gap: 16px;
 }
 
-.modal-form-input-container input{
+.modal-form-input-container input,
+.modal-form-input-container textarea{
     width: 250px;
     font-size: 1rem;
     padding: 8px;
     border-radius: 8px;
     background-color: white;
     border: 1px solid grey;
+    color: black;
 }
 
-.modal-form-input-container input:focus{
+.modal-form-input-container input:focus,
+.modal-form-input-container textarea:focus{
     outline: 2px solid var(--color-main);
     box-shadow: 2px 2px 2px 0 grey;
 }
 
 .modal-form-actions-container{
     margin-top: 16px;
-    display: grid;
-    grid-auto-columns: 100px;
-    grid-auto-flow: column;
-    grid-template-rows: 40px;
-    gap: 16px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .modal-form-actions-container *{
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 40px;
 }
 
 .modal-form-actions-container .cancel{
@@ -641,8 +642,13 @@ button:hover{
 }
 
 .modal-form-actions-container .save{
-    background-color: rgb(130, 255, 114);
+    background-color: var(--color-main);
+    color: rgba(255, 255, 255, 0.684);
     border: 2px solid rgba(8, 8, 8, 0.4);
+}
+
+.modal-form-actions-container .save:hover{
+    color: white;
 }
 
 .divider{
