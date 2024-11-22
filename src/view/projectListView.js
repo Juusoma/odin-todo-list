@@ -1,5 +1,5 @@
 import { makeElementDraggable, makeElementDropTarget } from "../utils/drag";
-import { createPositionedTextInput, makePositionedInputContainer } from "./positionedInput";
+import { makePositionedInputContainer } from "./positionedInput";
 
 
 export function handleProjectListView(user){
@@ -17,6 +17,7 @@ export function handleProjectListView(user){
     user.pubSub.subscribe('project-add', handleProjectAdd);
     user.pubSub.subscribe('project-remove', handleProjectRemove);
     user.pubSub.subscribe('project-change', handleProjectChange);
+    user.pubSub.subscribe("info-change-project", handleProjectInfoChange);
 
     const projectsListContainer = document.querySelector(".projects-list");
     const projectCreationButton = document.querySelector(".create-project");
@@ -39,19 +40,20 @@ export function handleProjectListView(user){
         //newProjectButton.addEventListener("mousedown", e => e.preventDefault());
 
         makeElementDraggable(newProjectButton, "project");
-        user.pubSub.subscribe("info-change-"+project.id, handleProjectInfoChange.bind(newProjectButton));
-        user.pubSub.subscribe("project-remove", handleProjectRemove);
 
 
         projectsListContainer.insertBefore(newProjectButton, projectCreationButton);
     }
 
     function handleProjectInfoChange({id, title}){
-        this.textContent = title;
+        const projectButton = projectsListContainer.querySelector(`[data-id="${id}"]`);
+        if(projectButton){
+            projectButton.textContent = title;
+        }
     }
 
     function handleProjectRemove(project){
-        const projectButton = Array.from(projectsListContainer.children).find(x => x.dataset.id === project.id);
+        const projectButton = projectsListContainer.querySelector(`[data-id="${project.id}"]`);
         if(projectButton){
             projectButton.remove();
         }

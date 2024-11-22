@@ -10,6 +10,13 @@ function createPubSubBroker(){
         }
     }
 
+    function unsubscribeAll(eventName){
+        if(eventName in subscribers){
+            delete subscribers[eventName];
+            console.log("unsub", eventName);
+        }
+    }
+
     function unsubscribe(eventName, callback){
         if(eventName in subscribers){
             subscribers[eventName] = subscribers[eventName].filter(x => x !== callback);
@@ -27,7 +34,7 @@ function createPubSubBroker(){
         }
     }
 
-    return { subscribe, unsubscribe, publish };
+    return { subscribe, unsubscribe, unsubscribeAll, publish };
 }
 
 export { createPubSubBroker }

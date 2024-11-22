@@ -429,10 +429,6 @@ button:hover{
     background-color: transparent;
 }
 
-.list-title-input{
-    max-width: calc(100% - 140px);
-}
-
 .list-options{
     visibility: hidden;
     position: absolute;

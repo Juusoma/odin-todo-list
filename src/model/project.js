@@ -44,7 +44,7 @@ function createProject(pubSub, title){
     function changeInfo({title}){
         if(title){
             _title = title;
-            pubSub.publish("info-change-" + _id, {
+            pubSub.publish("info-change-project", {
                 id: _id,
                 title,
             });

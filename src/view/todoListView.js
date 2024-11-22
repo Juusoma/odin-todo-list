@@ -7,6 +7,7 @@ export function handleTodoListView(user){
     user.pubSub.subscribe('project-change', handleProjectChange);
     user.pubSub.subscribe('todo-list-add', handleTodoListAdd);
     user.pubSub.subscribe('todo-list-remove', handleTodoListRemove);
+    user.pubSub.subscribe("info-change-list", handleTodoListInfoChange);
 
     const listsContainer = document.querySelector(".lists-main-container");
     makeElementDropTarget(user, listsContainer, "todo-list", false);
@@ -52,7 +53,8 @@ export function handleTodoListView(user){
         listElement.innerHTML = `
             <div class="list-title-container" draggable="true">
                 <h2 id="list-title-text" class="list-title">${todoList.title}</h2>
-                <input hidden type="text" id="list-title-input" class="list-title basic-text-input" onfocus="select()" value="${todoList.title}">
+                <input hidden type="text" id="list-title-input" class="list-title basic-text-input" 
+                onfocus="select()" maxlength="18" value="${todoList.title}">
                 <button class="list-options icon-button">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
                 </button>
@@ -85,12 +87,24 @@ export function handleTodoListView(user){
         });
         
         
-        updateTitleElementSize();
+        updateTitleInputSize();
             
-        titleInput.addEventListener("input", updateTitleElementSize);
+        titleInput.addEventListener("keyup", (e) => {
+            updateTitleInputSize();
+            if(e.key === "Enter")
+                titleInput.blur();
+        });
+    
+        titleInput.addEventListener("blur", handleTodoListTitleChange);
 
-        function updateTitleElementSize(){
+        function updateTitleInputSize(){
             titleInput.setAttribute("size", titleInput.value.length);
+        }
+
+        function handleTodoListTitleChange(){
+            if(!todoList.changeInfo({title: titleInput.value})){
+                titleInput.value = todoList.title;
+            }
         }
 
         listsContainer.insertBefore(listElement, addListButton);
@@ -112,9 +126,18 @@ export function handleTodoListView(user){
 
     function handleTodoListRemove(todoList){
         const listElement = listsContainer.querySelector(`[data-id="${todoList.id}"]`);
-        console.log(todoList.id);
         if(listElement){
             listElement.remove();
+        }
+    }
+
+    function handleTodoListInfoChange({id, title}){
+        const listElement = listsContainer.querySelector(`[data-id="${id}"]`);
+        if(listElement){
+            const titleText = listElement.querySelector("#list-title-text");
+            const titleInput = listElement.querySelector("#list-title-input");
+            titleText.textContent = title;
+            titleInput.textContent = title;
         }
     }
 }

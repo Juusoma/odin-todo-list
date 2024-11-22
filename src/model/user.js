@@ -52,7 +52,6 @@ export function createUser(name){
             const project = _projects[oldIndex];
             _projects.splice(oldIndex, 1);
             _projects.splice(newIndex, 0, project);
-            console.log(_projects);
         }
     }
 

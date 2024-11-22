@@ -21,7 +21,6 @@ export function createPositionedTextInput(target, callback){
         inputContainer.remove();
     }, {once: true});
     inputContainer.addEventListener("submit", e => {
-        console.log("submit")
         e.preventDefault();
 
         if(typeof callback === 'function') callback(textInput.value);
