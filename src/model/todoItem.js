@@ -6,7 +6,7 @@ function createTodoItem(pubSub, title){
     let _title = title;
     let _notes = "";
     let _dueDate = null;
-    let _priority = 0;
+    let _important = false;
     let _done = false;
 
     function setDueDate(time){
@@ -36,15 +36,18 @@ function createTodoItem(pubSub, title){
         console.log(`Item (${_id}): ${_title}, ${_notes}`);
     }
 
-    function changeInfo({title, notes, dueDate}){
-        if(title){
+    function changeInfo({title, notes, dueDate, important}){
+        if(title != undefined){
             _title = title;
         }
-        if(notes){
+        if(notes != undefined){
             _notes = notes;
         }
-        if(dueDate){
+        if(dueDate != undefined){
             _dueDate = new Date(dueDate);
+        }
+        if(important != undefined){
+            _important = important;
         }
 
         pubSub.publish("info-change-item", {
@@ -52,6 +55,7 @@ function createTodoItem(pubSub, title){
             title: _title,
             notes: _notes,
             dueDate: _dueDate,
+            important: _important,
         });
     }
 
@@ -72,8 +76,8 @@ function createTodoItem(pubSub, title){
         get dueDate(){
             return _dueDate;
         },
-        get priority(){
-            return _priority;
+        get important(){
+            return _important;
         },
         get done(){
             return _done;

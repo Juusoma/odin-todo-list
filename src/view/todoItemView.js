@@ -38,13 +38,13 @@ export function handleTodoItemView(user, todoList, listElement){
 
     function handleTodoItemAdd(todoItem){
         const newTodoItem = document.createElement("div");
-        newTodoItem.classList.add("list-item", "critical");
+        newTodoItem.classList.add("list-item");
         newTodoItem.dataset.id = todoItem.id;
         newTodoItem.innerHTML = `
             <p class="list-item-title">${todoItem.title}</p>
             <p class="list-item-notes"></p>
             <button class="list-item-edit icon-button">     
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#999999"><path d="M202.63-202.87h57.24l374.74-374.74-56.76-57-375.22 375.22v56.52Zm-90.76 91v-185.3l527.52-526.76q12.48-11.72 27.7-17.96 15.21-6.24 31.93-6.24 16.48 0 32.2 6.24 15.71 6.24 27.67 18.72l65.28 65.56q12.48 11.72 18.34 27.56 5.86 15.83 5.86 31.79 0 16.72-5.86 32.05-5.86 15.34-18.34 27.82L297.65-111.87H111.87Zm642.87-586.39-56.24-56.48 56.24 56.48Zm-148.89 92.41-28-28.76 56.76 57-28.76-28.24Z"/></svg>                        
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z"/></svg>
             </button>
             <button class="list-item-due">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m608.41-290.57 61.5-61.02-146.32-146.32V-678.8h-87.18v216.13l172 172.1ZM480-71.87q-84.91 0-159.34-32.12-74.44-32.12-129.5-87.17-55.05-55.06-87.17-129.5Q71.87-395.09 71.87-480t32.12-159.34q32.12-74.44 87.17-129.5 55.06-55.05 129.5-87.17 74.43-32.12 159.34-32.12t159.34 32.12q74.44 32.12 129.5 87.17 55.05 55.06 87.17 129.5 32.12 74.43 32.12 159.34t-32.12 159.34q-32.12 74.44-87.17 129.5-55.06 55.05-129.5 87.17Q564.91-71.87 480-71.87ZM480-480Zm0 317.13q131.8 0 224.47-92.54 92.66-92.55 92.66-224.59 0-132.04-92.66-224.59-92.66-92.54-224.47-92.54-131.8 0-224.47 92.54-92.66 92.55-92.66 224.59 0 132.04 92.66 224.59 92.66 92.54 224.47 92.54Z"/></svg>
@@ -58,33 +58,62 @@ export function handleTodoItemView(user, todoList, listElement){
 
         makeElementDraggable(newTodoItem, "todo-item");
 
+        const editButton = newTodoItem.querySelector(".list-item-edit");
+        createDropdownButton(editButton, [
+            {
+                name: "Flag",
+                svg: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M200-120v-680h360l16 80h224v400H520l-16-80H280v280h-80Z"/></svg>`,
+                onclick: () => {
+                    todoItem.changeInfo({important: !todoItem.important});
+                },
+            },
+            {
+                name: `Delete item`,
+                svg: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>`,
+                buttonClass: "delete",
+                onclick: () => {
+                    todoList.removeTodoItem(todoItem.id);
+                },
+            },
+        ]);
+
 
         todoItemsContainer.appendChild(newTodoItem);
         handleTodoItemInfoChange(todoItem);
     }
     
     function handleTodoItemRemove(todoItem){
-        //TODO
+        const listElement = todoItemsContainer.querySelector(`[data-id="${todoItem.id}"]`);
+        if(listElement){
+            listElement.remove();
+        }
     }
 
-    function handleTodoItemInfoChange({id, title, notes, dueDate}){
+    function handleTodoItemInfoChange({id, title, notes, dueDate, important}){
         const itemElement = todoItemsContainer.querySelector(`[data-id=${id}]`);
         if(!itemElement) return;
 
-        if(title){
+        if(title != undefined){
             const titleElement = itemElement.querySelector(".list-item-title");
             titleElement.textContent = title;
         }
 
-        if(notes){
+        if(notes != undefined){
             const notesElement = itemElement.querySelector(".list-item-notes");
             notesElement.textContent = notes;
+        }
+        console.log(important);
+        if(important != undefined){
+            if(important)
+                itemElement.classList.add("important");
+            else
+                itemElement.classList.remove("important");
         }
 
         const itemDueElement = itemElement.querySelector(".list-item-due");
         itemDueElement.textContent = getRemainingTimeString(dueDate);
         itemDueElement.classList.remove("isDue");
-        if(dueDate){
+        if(dueDate != undefined){
             itemDueElement.classList.add("due-date-set");
             if(isDue(dueDate)){
                 itemDueElement.style.setProperty("--saturation", "0%");
@@ -116,7 +145,8 @@ export function handleTodoItemView(user, todoList, listElement){
                 todoItem.extendDueDate({days: 1});
             }
             else{
-                openTodoItemModal(todoItem, closestTodoItem);
+                if(!e.target.closest(".list-item-edit"))
+                    openTodoItemModal(todoItem, closestTodoItem);
             }
         }
     }

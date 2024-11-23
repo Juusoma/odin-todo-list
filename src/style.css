@@ -353,6 +353,7 @@ button:hover{
     max-width: 300px;
     background-color: var(--color-accent);
     border: 2px solid var(--color-grey);
+    color: var(--color-grey);
     border-radius: inherit;
 
     display: flex;
@@ -361,6 +362,10 @@ button:hover{
     padding: 8px;
     gap: 16px;
 
+}
+
+.dropdown-option svg{
+    fill: var(--color-grey);
 }
 
 .dropdown-option:hover{
@@ -471,7 +476,7 @@ button:hover{
     box-shadow: inset 0px 0px 4px 0 rgba(0, 0, 0, 0.25);
 }
 
-.critical{
+.important{
     --color-border: rgb(244, 75, 60);
 }
 
@@ -513,15 +518,23 @@ button:hover{
 }
 
 .list-item-edit{
-    grid-area: 1 / 2;
+    grid-area: 3 / 2;
     justify-self: center;
     align-self: center;
     visibility: hidden;
 }
 
-/*.list-item:hover .list-item-edit{
+.list-item-edit svg{
+    fill: var(--color-grey);
+}
+
+.list-item-edit:hover{
+    background-color: rgba(128, 128, 128, 0.25);
+}
+
+.list-item:hover .list-item-edit{
     visibility: visible;
-}*/
+}
 
 .list-item-due{
     position: relative;
