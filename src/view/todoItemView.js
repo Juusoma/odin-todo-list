@@ -102,7 +102,7 @@ export function handleTodoItemView(user, todoList, listElement){
             const notesElement = itemElement.querySelector(".list-item-notes");
             notesElement.textContent = notes;
         }
-        console.log(important);
+        
         if(important != undefined){
             if(important)
                 itemElement.classList.add("important");

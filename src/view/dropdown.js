@@ -15,6 +15,8 @@ export function createDropdownButton(button, options){
 
     button.addEventListener("click", handleDropdownButtonClick);
 
+    const mainContent = document.querySelector(".main-content");
+
     function handleDropdownButtonClick(e){
         if(!dropdown){
             dropdown = createDropdown();
@@ -54,6 +56,7 @@ export function createDropdownButton(button, options){
     
         //Use mousedown to avoid firing handleClick immediately (click event is still bubbling here)
         document.addEventListener("mousedown", handleClick, {once: true});
+        mainContent.addEventListener("scroll", closeDropdown);
     
         function handleClick(e){
             const dropdownOption = e.target.closest(".dropdown-option");
@@ -61,9 +64,15 @@ export function createDropdownButton(button, options){
                 const index = dropdownOption.dataset.index;
                 options[index].onclick?.();
             }
-            newDropdown.remove();
+
+            closeDropdown();
+        }
+
+        function closeDropdown(){
+            newDropdown?.remove();
             newDropdown = null;
             dropdown = null;
+            mainContent.removeEventListener("scroll", closeDropdown);
         }
 
         return document.body.appendChild(newDropdown);
