@@ -90,9 +90,10 @@ export function handleTodoListView(user){
         updateTitleInputSize();
             
         titleInput.addEventListener("keyup", (e) => {
-            updateTitleInputSize();
-            if(e.key === "Enter")
+            if(e.key === "Enter"){
                 titleInput.blur();
+            }
+            updateTitleInputSize();
         });
     
         titleInput.addEventListener("blur", handleTodoListTitleChange);
@@ -102,24 +103,33 @@ export function handleTodoListView(user){
         }
 
         function handleTodoListTitleChange(){
-            if(!todoList.changeInfo({title: titleInput.value})){
-                titleInput.value = todoList.title;
-            }
+            todoList.changeInfo({title: titleInput.value})
+            titleInput.value = todoList.title;
+            updateTitleInputSize();
         }
 
         listsContainer.insertBefore(listElement, addListButton);
 
         // Insert the list before creating dropdown for correct dropdown placement
         const optionsDropdownButton = listElement.querySelector(".list-options");
-        createDropdownButton(optionsDropdownButton, [{
-            name: `Delete "${todoList.title}"`,
-            svg: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>`,
-            buttonClass: "delete",
-            onclick: () => {
-                if(confirm("Are you sure you want to DELETE the list and its contents?"))
-                    user.currentProject?.removeTodoList(todoList.id);
+        createDropdownButton(optionsDropdownButton, [
+            {
+                name: "Change hue",
+                svg: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M346-140 100-386q-10-10-15-22t-5-25q0-13 5-25t15-22l230-229-106-106 62-65 400 400q10 10 14.5 22t4.5 25q0 13-4.5 25T686-386L440-140q-10 10-22 15t-25 5q-13 0-25-5t-22-15Zm47-506L179-432h428L393-646Zm399 526q-36 0-61-25.5T706-208q0-27 13.5-51t30.5-47l42-54 44 54q16 23 30 47t14 51q0 37-26 62.5T792-120Z"/></svg>`,
+                onclick: () => {
+                    todoList.changeInfo({hue: Math.floor(Math.random() * 360)});
+                },
             },
-        }]);
+            {
+                name: `Delete list`,
+                svg: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z"/></svg>`,
+                buttonClass: "delete",
+                onclick: () => {
+                    if(confirm("Are you sure you want to DELETE the list and its contents?"))
+                        user.currentProject?.removeTodoList(todoList.id);
+                    },
+            },
+        ]);
 
         handleTodoItemView(user, todoList, listElement);
     }
@@ -131,13 +141,18 @@ export function handleTodoListView(user){
         }
     }
 
-    function handleTodoListInfoChange({id, title}){
+    function handleTodoListInfoChange({id, title, hue}){
         const listElement = listsContainer.querySelector(`[data-id="${id}"]`);
         if(listElement){
-            const titleText = listElement.querySelector("#list-title-text");
-            const titleInput = listElement.querySelector("#list-title-input");
-            titleText.textContent = title;
-            titleInput.textContent = title;
+            if(title){
+                const titleText = listElement.querySelector("#list-title-text");
+                const titleInput = listElement.querySelector("#list-title-input");
+                titleText.textContent = title;
+                titleInput.textContent = title;
+            }
+            if(hue){
+                listElement.style.setProperty("--list-hue", hue + "deg");
+            }    
         }
     }
 }

@@ -62,17 +62,19 @@ function createTodoList(pubSub, title){
         _todoItems.splice(index, 0, todoItem);
     }
 
-    function changeInfo({title}){
+    function changeInfo({title, hue}){
         if(title){
             _title = title;
-            pubSub.publish("info-change-list", {
-                id: _id,
-                title,
-            });
-            return true;
         }
-
-        return false;
+        if(hue){
+            _hue = hue;
+        }
+        
+        pubSub.publish("info-change-list", {
+            id: _id,
+            title: _title,
+            hue: _hue,
+        });
     }
 
     return {
