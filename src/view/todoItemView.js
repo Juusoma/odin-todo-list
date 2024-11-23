@@ -155,8 +155,16 @@ export function handleTodoItemView(user, todoList, listElement){
     function openTodoItemModal(todoItem, todoItemElement){
         todoItemOptionsModal.showModal();
         const rect = todoItemElement.getBoundingClientRect();
-        todoItemOptionsModal.style.left = rect.left + "px";
-        todoItemOptionsModal.style.top = rect.top + "px";
+        const modalRect = todoItemOptionsModal.getBoundingClientRect();
+        let left = rect.left;
+        let top = rect.top;
+        console.log(left + modalRect.width, window.innerWidth);
+        left = Math.min(window.innerWidth - modalRect.width, left);
+        left = Math.max(left, 0);
+        top = Math.min(window.innerHeight - modalRect.height, top);
+        top = Math.max(top, 0);
+        todoItemOptionsModal.style.left = left + "px";
+        todoItemOptionsModal.style.top = top + "px";
 
         const titleInput = todoItemOptionsModal.querySelector("#todo-item-title");
         titleInput.value = todoItem.title;
