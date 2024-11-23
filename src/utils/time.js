@@ -28,3 +28,9 @@ export function isDue(dueDate){
     if(!dueDate) return false;
     return dueDate.getTime() - Date.now() < 0;
 }
+
+export function toISOLocal(date) {
+    if(!date) return null;
+    var localdt = new Date(date - date.getTimezoneOffset()*60000);
+    return localdt.toISOString().slice(0, -1); 
+}

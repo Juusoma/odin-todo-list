@@ -459,9 +459,7 @@ button:hover{
     display: grid;
     grid-template-columns: 1fr 64px;
     grid-template-rows: 1fr auto auto;
-    gap: 4px 8px;
     padding: 16px;
-    padding-right: 8px;
     border-radius: 8px;
 
     --color-border: var(--color-accent);
@@ -471,6 +469,10 @@ button:hover{
                  var(--color-background) 10px);
    
     box-shadow: inset 0px 0px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.critical{
+    --color-border: rgb(244, 75, 60);
 }
 
 .list-item + .list-item{
@@ -504,7 +506,10 @@ button:hover{
             line-clamp: 4; 
             
     grid-area: 2 / 1 / 2 / span 2;
+    margin-bottom: 32px;
     color: grey;
+    white-space: pre-wrap;
+    font-style: italic;
 }
 
 .list-item-edit{
@@ -535,7 +540,7 @@ button:hover{
     background-color: hsla(var(--hue), var(--saturation), var(--bg-lightness), 1);
     color: var(--active-color);
     visibility: hidden;
-    transition: all .16s;
+    transition: all .1s;
 }
 
 .list-item-due.due-date-set{
@@ -548,29 +553,30 @@ button:hover{
 
 .list-item-due:hover{
     box-shadow: inset 0 0 4px 0 var(--color-grey);
+    border: 2px solid var(--color-main);
 }
 
 .list-item-due:active{
     scale: 1.1;
     filter: brightness(1.06);
+    border: none;
 }
 
-/*.list-item-due:hover::after{
-    content: "add";
+.list-item-due:hover::after{
+    content: attr(data-date);
     position: absolute;
-    top: 25%;
-    left: 50%;
-    width: 80%;
+    top: 50%;
+    left: 100%;
+    width: 200px;
     height: 80%;
-    border-radius: 50%;
-    translate: -50% -50%;
-    text-align: center;
+    translate: 16px -50%;
+    text-align: start;
     align-content: center;
-    font-size: .7rem;
-}*/
+    font-size: 1rem;
+}
 
 .isDue{
-    --text-lightness: 85%;
+    --text-lightness: 50%;
     --bg-lightness: 25%;
 }
 
@@ -609,8 +615,8 @@ button:hover{
 
 .modal{
     background-color: var(--color-accent);
-    border: 2px solid var(--color-main);
-    border-radius: 16px;
+    border: 2px solid var(--color-grey);
+    border-radius: 8px;
     color: var(--color-grey-dark);
 }
 
@@ -630,7 +636,7 @@ button:hover{
     font-weight: bold;
     display: grid;
     align-items: center;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 80px 1fr;
     gap: 16px;
 }
 

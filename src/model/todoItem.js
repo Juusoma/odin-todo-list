@@ -12,7 +12,7 @@ function createTodoItem(pubSub, title){
     function setDueDate(time){
         _dueDate = new Date(time);
 
-        pubSub.publish("todo-item-update", {id: _id, dueDate: _dueDate});
+        pubSub.publish("info-change-item", {id: _id, dueDate: _dueDate});
     }
 
     function extendDueDate({years, months, weeks, days, hours, minutes} = {}){
@@ -34,6 +34,25 @@ function createTodoItem(pubSub, title){
 
     function log(){
         console.log(`Item (${_id}): ${_title}, ${_notes}`);
+    }
+
+    function changeInfo({title, notes, dueDate}){
+        if(title){
+            _title = title;
+        }
+        if(notes){
+            _notes = notes;
+        }
+        if(dueDate){
+            _dueDate = new Date(dueDate);
+        }
+
+        pubSub.publish("info-change-item", {
+            id: _id,
+            title: _title,
+            notes: _notes,
+            dueDate: _dueDate,
+        });
     }
 
     return {
@@ -61,6 +80,7 @@ function createTodoItem(pubSub, title){
         },
         log,
         extendDueDate,
+        changeInfo,
     };
 }
 
