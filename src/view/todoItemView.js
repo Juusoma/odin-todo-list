@@ -158,7 +158,6 @@ export function handleTodoItemView(user, todoList, listElement){
         const modalRect = todoItemOptionsModal.getBoundingClientRect();
         let left = rect.left;
         let top = rect.top;
-        console.log(left + modalRect.width, window.innerWidth);
         left = Math.min(window.innerWidth - modalRect.width, left);
         left = Math.max(left, 0);
         top = Math.min(window.innerHeight - modalRect.height, top);
